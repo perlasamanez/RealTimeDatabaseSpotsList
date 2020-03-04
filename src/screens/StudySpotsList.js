@@ -5,8 +5,9 @@ import{
     TextInput,
     Button,
     FlatList,
-    SafeAreaView
+    SafeAreaView,
 } from 'react-native';
+import ActionButton from 'react-native-action-button';
 import { addStudySpot, getStudySpots } from '../api/StudySpotsApi';
 import { ListItem, Divider } from 'react-native-elements';
 
@@ -80,6 +81,10 @@ export default class StudySpotsList extends Component {
                         );
                     }
                 }
+            />
+            <ActionButton
+                buttonColor='blue'
+                onPress={() => this.props.navigation.navigate('StudySpotFormScreen')}
             />
             </SafeAreaView> 
         );
