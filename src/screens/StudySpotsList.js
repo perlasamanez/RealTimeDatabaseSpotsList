@@ -8,7 +8,7 @@ import{
     SafeAreaView,
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
-import { addStudySpot, getStudySpots } from '../api/StudySpotsApi';
+import { addStudySpot, getStudySpots, updateStudySpotStatus } from '../api/StudySpotsApi';
 import { ListItem, Divider } from 'react-native-elements';
 
 export default class StudySpotsList extends Component {
@@ -59,7 +59,7 @@ export default class StudySpotsList extends Component {
                         addStudySpot(
                             {
                                 name: this.state.currentSpotItem,
-                                color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                                //color: this.colors[Math.floor(Math.random() * this.colors.length)]
                             },
                             this.onStudySpotAdded
                         )
@@ -74,9 +74,11 @@ export default class StudySpotsList extends Component {
                         console.log(item);
                         return (
                             <ListItem 
-                                title={item.name}
-                                subtitle={item.color}
-                                onPress={() => { }}
+                                //title={item.name}
+                                //subtitle={item.color}
+                                title={item.KeyCode} 
+                                subtitle={item.Status}
+                                onPress={() => { updateStudySpotStatus()}}
                             />
                         );
                     }

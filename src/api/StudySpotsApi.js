@@ -27,10 +27,13 @@ export function addStudySpot(studySpot, addComplete){
     ).then((studySpotData) => addComplete(studySpotData.data())) // To know when your data is actual completed in the app, for the pop up saying it was added for example
     .catch((error) => console.log(error));*/
 
-    db.ref('/StudySpots').push({
+    db.ref('/studySpots').push({
         name: studySpot.name,
-        color: studySpot.color,
-    }).then((studySpotData) => addComplete(studySpotData.data())) // To know when your data is actual completed in the app, for the pop up saying it was added for example
+        //color: studySpot.color,
+        KeyCode: studySpot.KeyCode,
+        Status: studySpot.Status,
+    }).then((snapshot) => snapshot.get()
+    ).then((studySpotData) => addComplete(studySpotData.data())) // To know when your data is actual completed in the app, for the pop up saying it was added for example
     .catch((error) => console.log(error));
 }
 // async being used here!
@@ -38,7 +41,7 @@ export async function getStudySpots(studySpotsRetreived){
     
     //var studySpotsList = [];
 
-    let itemsRef = db.ref('/StudySpots');
+    let itemsRef = db.ref('/studySpots');
     
     itemsRef.on('value', snapshot => {
         let data = snapshot.val();
@@ -48,12 +51,32 @@ export async function getStudySpots(studySpotsRetreived){
     });
 } 
 // Use for demo to update only the status when clicking the button of the study spot!
-export function updateStudySpotStatus(status){
-    
-    db.ref('/StudySpots').update({
-        status,
+export function updateStudySpotStatus(){
+
+    db.ref('/studySpots/0001').update({
+            Status: 2,
     });
 }
+
+/*export function searchID(){
+   
+    db.ref('/studySpots/').orderByChild('idValue')
+    .equalTo(req.body.email)
+    .once('value')
+    .then(function (snapshot) {
+      var value = snapshot.val();
+      if (value) {
+        // value is an object containing one or more of the users that matched your email query
+        // choose a user and do something with it
+      } else {
+        res.status(401)
+          .json({
+            error: 'No user found',
+          )};
+      }
+    });
+
+}*/
 
 export function updateStudySpot(studySpot){
     // To update a study spot's information from admin side
@@ -67,4 +90,3 @@ export function findStudySpotID(){
 export function deleteStudySpot(studySpot, deleteComplete){
 
 }
-
