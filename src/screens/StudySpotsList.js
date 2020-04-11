@@ -16,68 +16,23 @@ import { ListItem, Divider } from 'react-native-elements';
 const numColumns = 2
 const WIDTH = Dimensions.get('window').width
 
-/*
-<View style={styles.row}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Add Study Spot"
-                        value={this.state.currentSpotItem}
-                        onChangeText={(text) => this.setState(prevState => ({
-                            currentSpotItem: prevState.currentSpotItem = text
-                        }))
-                        } />
-                <Button
-                    title='Submit'
-                    style={styles.button}
-                    onPress={() => 
-                        addStudySpot(
-                            {
-                                name: this.state.currentSpotItem,
-                                //color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                            },
-                            this.onStudySpotAdded
-                        )
-                    }
-                />
-                </View>
-
-
-// <ListItem 
-                                //     //title={item.name}
-                                //     //subtitle={item.color}
-                                //     title={item.KeyCode} 
-                                //     subtitle={item.Status}
-                                //     onPress={() => { updateStudySpotStatus()}}
-                                // />
-*/
-
 export default class StudySpotsList extends Component {
 
-    colors = [ 'red', 'black', 'blue', 'green', 'orange', 'yellow', 'purple', 'white', 'brown']
+    static navigationOptions = ({navigation}) => {
+        //console.log(navigation);
+        return {
+            title: 'List of Study Spots',
+        }
+    };
 
     state = {
         studySpotList: [],
         currentSpotItem: null,
     }
 
-    /*
-
-    // This is done so if the number of squares are not even, then it will have an empty field. 
-    // Continue on video: https://www.youtube.com/watch?v=kukrkdk30g4 
-    // Not recommendable since it would mess up with our database if we push an empty field all the time.
-
-    formatData = (data, numColumns) => {
-        const totalRows = Math.floor(data.length / numColumns)
-        let totalLastRow = data.length - (totalRows * numColumns)
-
-        while (totalLastRow !== 0 && totalLastRow !== numColumns){
-                // To-Do
-        }
-    }*/
-
     onStudySpotAdded = (studySpot) => {
-        console.log("Study Spot Device Added!");
-        console.log(studySpot);
+        //console.log("Study Spot Device Added!");
+        //console.log(studySpot);
         this.setState(prevState => ({
             studySpotList: [...prevState.studySpotList, studySpot]
         }));
@@ -85,7 +40,7 @@ export default class StudySpotsList extends Component {
  
     // callback to let us know when we receive the study spot list 
     onStudySpotsReceived = (studySpotList) => {
-        console.log(studySpotList);
+        //console.log(studySpotList);
         this.setState(prevState => ({
             studySpotList: prevState.studySpotList = studySpotList
         }));
@@ -95,21 +50,20 @@ export default class StudySpotsList extends Component {
         getStudySpots(this.onStudySpotsReceived);
     }
 
+
     render(){
         let {container, itemText} = styles
         return (
             <SafeAreaView style={container}>
 
-            <Text style={styles.titleItem}>Reserve a Study Spot</Text>
+            <Text style={styles.titleItem}>Current Devices</Text>
                     <FlatList
                         data={this.state.studySpotList}
-                        /*ItemSeparatorComponent={() => <Divider style={{ backgroundColor: 'black' }}/>}*/
                         keyExtractor={(item, index) => index.toString()}
                         numColumns = {numColumns}
                         renderItem={({ item }) => {
-                            console.log(item);
                             return (
-                                <View style={styles.itemStyle}  onStartShouldSetResponder={() => { updateStudySpotStatus()}}>
+                                <View style={styles.itemStyle}  onStartShouldSetResponder={() => {this.props.navigation.navigate('StudySpotDetailScreen', {studySpot: item})}}>
                                     <Text style={styles.itemText}>{item.Name}</Text>
                                     <Text style={styles.itemBuilding}>{item.BuildingName}</Text>
                                     <Text style={styles.itemFloor}>{item.Floor}</Text>
@@ -117,12 +71,13 @@ export default class StudySpotsList extends Component {
                             );
                         }
                     }
-                    />
-                  
-            {/* <ActionButton
-                buttonColor='blue'
-                onPress={() => this.props.navigation.navigate('StudySpotFormScreen')}
-            /> */}
+            />
+
+            <ActionButton
+                buttonColor='#667ABF'
+                onPress={() => this.props.navigation.navigate('StudySpotFormScreen', { studySpotAddedCallback: this.onStudySpotAdded })}
+            />
+            
             </SafeAreaView> 
         );
     }
@@ -149,8 +104,20 @@ const styles = StyleSheet.create({
     
     itemText:{
         color: '#000000',
-        fontSize: 20,
+        fontSize: 23,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: 10
     },
+
+    /**
+     * color: '#000000',
+      fontSize: 25,
+      textAlign: 'center',
+      marginTop: 18,
+      marginBottom: 10,
+      fontWeight: '500'
+     */
 
     titleItem:{
         color: '#000000',
@@ -161,12 +128,16 @@ const styles = StyleSheet.create({
 
     itemBuilding:{
         color: '#000000',
-        fontSize: 18,
+        fontSize: 22,
+        fontWeight: '300',
+        marginBottom: 10
     },
 
     itemFloor:{
         color: '#000000',
-        fontSize: 13,
+        fontSize: 16,
+        fontWeight: '300',
+        marginBottom: 10
     },
 
     row: {
@@ -177,6 +148,9 @@ const styles = StyleSheet.create({
     button: {
       fontSize: 19,
       fontWeight: 'bold',
+    },
+    itemInvesible:{
+        backgroundColor: 'transparent'
     },
     input: {
       color: 'red',
