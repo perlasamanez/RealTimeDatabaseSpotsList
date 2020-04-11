@@ -2,24 +2,18 @@ import React, {Component} from 'react';
 import{
     StyleSheet,
     View,
-    TextInput,
-    Button,
     FlatList,
     SafeAreaView,
     Text,
-    Dimensions,
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { addStudySpot, getStudySpots, updateStudySpotStatus } from '../api/StudySpotsApi';
-import { ListItem, Divider } from 'react-native-elements';
 
 const numColumns = 2
-const WIDTH = Dimensions.get('window').width
 
 export default class StudySpotsList extends Component {
 
     static navigationOptions = ({navigation}) => {
-        //console.log(navigation);
         return {
             title: 'List of Study Spots',
         }
@@ -31,16 +25,15 @@ export default class StudySpotsList extends Component {
     }
 
     onStudySpotAdded = (studySpot) => {
-        //console.log("Study Spot Device Added!");
-        //console.log(studySpot);
+        console.log("Study Spot Device Added!");
+        console.log(studySpot);
         this.setState(prevState => ({
             studySpotList: [...prevState.studySpotList, studySpot]
         }));
     }
  
-    // callback to let us know when we receive the study spot list 
+    // Callback to let us know when we receive the study spot list 
     onStudySpotsReceived = (studySpotList) => {
-        //console.log(studySpotList);
         this.setState(prevState => ({
             studySpotList: prevState.studySpotList = studySpotList
         }));
@@ -89,7 +82,6 @@ const styles = StyleSheet.create({
         flex:1,
         paddingTop: 40
     },
-
     itemStyle:{
         backgroundColor: 'rgba(196, 196, 196, 0.32)',
         alignItems: 'center',
@@ -98,10 +90,8 @@ const styles = StyleSheet.create({
         width: 170,
         flex: 1,
         margin:10,
-        //height: WIDTH/numColumns,
         borderRadius: 20
     },
-    
     itemText:{
         color: '#000000',
         fontSize: 23,
@@ -109,37 +99,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10
     },
-
-    /**
-     * color: '#000000',
-      fontSize: 25,
-      textAlign: 'center',
-      marginTop: 18,
-      marginBottom: 10,
-      fontWeight: '500'
-     */
-
     titleItem:{
         color: '#000000',
         fontSize: 25,
         textAlign: 'center',
         margin: 18
     },
-
     itemBuilding:{
         color: '#000000',
         fontSize: 22,
         fontWeight: '300',
         marginBottom: 10
     },
-
     itemFloor:{
         color: '#000000',
         fontSize: 16,
         fontWeight: '300',
         marginBottom: 10
     },
-
     row: {
       borderRadius: 4,
       borderWidth: 0.5,

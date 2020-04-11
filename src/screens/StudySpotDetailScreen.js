@@ -27,8 +27,6 @@ class StudySpotDetailScreen extends Component {
 
         const studySpot = this.props.navigation.getParam('studySpot');
 
-       // console.log(studySpot);
-
         return(
             <View style={styles.container}>
                 <Text style={styles.titleItem}>Device Information</Text>

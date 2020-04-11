@@ -4,7 +4,6 @@ import {
     View,
     Text,
     TextInput,
-    //Button
 } from 'react-native';
 import { ThemeProvider, Button } from 'react-native-elements';
 import {withFormik} from 'formik';
